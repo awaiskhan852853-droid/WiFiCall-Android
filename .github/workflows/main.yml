@@ -1,0 +1,55 @@
+
+name: Build WiFi Call APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Project
+        uses: actions/checkout@v4
+
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v4
+        with:
+          accept-android-sdk-licenses: true
+
+      - name: Find and Build Android Project
+        shell: bash
+        run: |
+          WRAPPER=$(find . -type f -name gradlew -not -path '*/.gradle/*' | head -n 1)
+
+          if [ -z "$WRAPPER" ]; then
+            echo "ERROR: gradlew file not found"
+            find . -maxdepth 4 -type f | head -100
+            exit 1
+          fi
+
+          PROJECT_DIR=$(dirname "$WRAPPER")
+          echo "Android project found: $PROJECT_DIR"
+
+          cd "$PROJECT_DIR"
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleDebug
+
+      - name: Save APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: WiFiCall-APK
+          path: '**/app/build/outputs/apk/debug/*.apk'
+          if-no-files-found: error
