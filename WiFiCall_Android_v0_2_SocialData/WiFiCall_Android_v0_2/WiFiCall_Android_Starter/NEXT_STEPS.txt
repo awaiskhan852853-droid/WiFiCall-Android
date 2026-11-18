@@ -1,0 +1,27 @@
+WiFi Call - Development Roadmap
+
+MVP-1 (current):
+Android UI prototype. No real calls.
+
+MVP-2:
+- Authentication and unique user IDs
+- WebRTC audio calling
+- Signaling backend
+- STUN/TURN servers
+- Incoming call handling
+
+MVP-3:
+- Admin dashboard
+- Abuse/spam reporting and blocking
+- Privacy policy and terms
+- Secure account recovery
+
+Business release:
+- Telecom/SIP provider integration for phone-number termination
+- Per-country pricing and cost controls
+- Wallet ledger and payment provider
+- Identity, fraud, regulatory and legal review
+- Monitoring, support and service-level planning
+
+Do not sell or advertise phone-number calling until the telecom provider,
+legal permissions, pricing, emergency-call limitations and compliance are verified.

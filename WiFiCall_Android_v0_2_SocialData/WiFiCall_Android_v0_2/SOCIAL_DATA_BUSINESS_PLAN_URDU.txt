@@ -1,0 +1,90 @@
+WiFi Call — Social Data Support Business Plan (v0.2)
+==================================================
+
+مقصد
+----
+WiFi Call کو Android-first internet calling platform بنانا:
+1) App-to-App voice calling over ordinary Wi-Fi/mobile data.
+2) مستقبل میں app-to-phone calling through an authorized telecom/SIP partner.
+3) Social-bundle compatibility only where the mobile operator explicitly
+   approves and configures the app/service traffic under a commercial agreement.
+
+چار نیٹ ورک ہدف
+---------------
+Jazz, Zong, Ufone, Telenor — یہ کاروباری ہدفی فہرست ہے، موجودہ معاہدے یا
+فعال سپورٹ کا دعویٰ نہیں۔ آپریٹرز کے کاروباری ڈھانچے/برانڈز بدل سکتے ہیں؛
+معاہدے سے پہلے ہر آپریٹر کی موجودہ قانونی شناخت اور partnership contact verify کریں۔
+
+اہم حقیقت
+---------
+Social bundle عام طور پر صرف مخصوص منظور شدہ apps/domains/traffic کے لیے ہوتا ہے۔
+نئی WiFi Call app خود بخود WhatsApp/IMO/Facebook کے social data میں شامل نہیں ہوتی۔
+اسے WhatsApp یا کسی اور منظور شدہ ایپ کا روپ دے کر، VPN/tunnel یا traffic masking
+کے ذریعے bundle restrictions bypass کرنے کی کوشش نہیں کی جائے گی۔
+
+آپریٹر پارٹنرشپ کا مجوزہ طریقہ
+-----------------------------
+- ہر آپریٹر سے تحریری طور پر پوچھیں کہ وہ OTT/VoIP app کے لیے zero-rating،
+  sponsored data، app-specific bundle inclusion یا کوئی اور approved arrangement دیتا ہے؟
+- اگر ہاں، تو ان کی technical requirements لیں: domains/IPs, DNS/CDN handling,
+  traffic classification, reporting, security review, billing/revenue share.
+- operator کے ساتھ test SIMs پر test کریں اور واضح طور پر تصدیق کریں کہ app traffic
+  کس bundle سے deduct ہوتا ہے۔
+- صارف کو ایپ میں دکھائیں کہ Social Data support صرف اسی وقت "Available" ہوگا
+  جب متعلقہ operator + package + region کے لیے تحریری منظوری اور live test موجود ہو۔
+- اگر منظوری نہ ہو تو ایپ عام Wi-Fi/general mobile data استعمال کرے اور صارف کو
+  پہلے سے بتائے کہ عام data charges لگ سکتے ہیں۔
+
+پروڈکٹ ڈیزائن
+--------------
+Connection status:
+  Wi-Fi: Supported (when internet is available)
+  General mobile data: Supported (when internet is available)
+  Social bundle: Operator approval required / Not yet enabled
+Call types:
+  WiFi Call ID -> WiFi Call ID: first MVP
+  WiFi Call ID -> regular phone number: later, through authorized provider
+No false "free call" promise. App-to-App calls use data and may incur data charges.
+
+فنی آرکیٹیکچر
+--------------
+Android Kotlin app
+  -> Auth/API backend
+  -> WebRTC audio
+  -> Signaling service (exchange SDP/ICE)
+  -> STUN/TURN infrastructure
+  -> Operator-approved social-data arrangement (only after approval)
+  -> Authorized SIP/PSTN provider for regular phone numbers (later)
+
+بزنس ماڈل
+----------
+- App-to-App: free tier initially; cost control through call duration/abuse limits.
+- App-to-phone: paid credits/minutes only after legal provider integration.
+- Premium plans: optional later (extra features, not a promise of free telecom).
+- Operator-sponsored/zero-rated data: negotiated commercial arrangement, not assumed.
+
+مرحلہ وار منصوبہ
+----------------
+Phase 1: UI prototype (current starter, no real calls).
+Phase 2: secure accounts + WebRTC audio + signaling + TURN + incoming call notifications.
+Phase 3: privacy policy, terms, abuse reporting/blocking, support and monitoring.
+Phase 4: operator outreach and written social-data partnership discussions.
+Phase 5: controlled social-bundle pilots on each approved operator/package.
+Phase 6: authorized phone-number calling, billing and wider launch.
+
+قانونی/تجارتی احتیاط
+-------------------
+پاکستان میں telecom/VoIP service کی نوعیت کے مطابق PTA سے موجودہ licensing,
+interconnection, numbering, emergency-service, lawful-compliance اور data-retention
+تقاضے تحریری طور پر معلوم کریں۔ Pakistan Telecom Act میں telecom services کے لیے
+licensing کا بنیادی اصول موجود ہے۔ محض app prototype بنانا commercial telecom
+authorization کا متبادل نہیں۔
+یہ منصوبہ قانونی مشورہ نہیں؛ launch سے پہلے PTA اور telecom lawyer سے تصدیق کریں۔
+
+کامیابی کی پیمائش
+----------------
+- App-to-App call connection success rate
+- audio quality / call drop rate
+- data consumed per minute
+- per-operator social bundle deduction verified by operator test
+- user complaints, fraud and support resolution
